@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('posts', [App\Http\Controllers\PostController::class, 'index']);
+
+Route::get('/about', function(){
+    return view('blogs.about');
+});
+Route::get('/posts', function(){
+    return view('blogs.posts');
 });
 
 Route::get('/dashboard', function () {

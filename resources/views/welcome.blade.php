@@ -16,7 +16,7 @@
         </style>
     </head>
     <body class="antialiased">
-        <x-partials.navbar />
+        <x-auth-layout />
     </body>
     
 </html>
