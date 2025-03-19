@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -25,25 +25,25 @@ class PostController extends Controller
             'title' => 'required|max:255|string',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            
         ]);
 
+        Post::create([
+            'title' => $request->name,
+            'content' => $request->content,
+            'image' => $request->image,
+            'user_id' => User::id(),
+        ]);
+
+
     
+        // Check if the request has an image file
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
+        } else {
+            $imagePath = null; // or some default image path if you have one
+        }
 
-    // Create a new post
-    $post = new Post();
-    $post->title = $request->title;
-    $post->content = $request->content;
-    $post->user_id = auth()->id();
-
-    
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
-        $post->image = $imagePath;
-    }
-
-    // Save the post
-    $post->save();
-
-    return redirect()->route('blogs/posts')->with('success', 'Post created successfully.');
+        return redirect()->route('blogs/posts')->with('success', 'Post created successfully.');
     }
 }
