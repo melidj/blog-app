@@ -5,11 +5,13 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
-    public function posts()
+    public function index()
     {
-        return view('blogs.posts');
+        $posts = Post::get();
+        return view('blogs.index', compact('posts'));
     }
 
     public function create()
@@ -28,22 +30,18 @@ class PostController extends Controller
             
         ]);
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
+        }
+
         Post::create([
-            'title' => $request->name,
+            'title' => $request->title,
             'content' => $request->content,
-            'image' => $request->image,
-            'user_id' => User::id(),
+            'image' => $imagePath 
         ]);
 
 
-    
-        // Check if the request has an image file
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
-        } else {
-            $imagePath = null; // or some default image path if you have one
-        }
-
-        return redirect()->route('blogs/posts')->with('success', 'Post created successfully.');
+        return redirect('posts/create')->with('status', 'Post created successfully.');
     }
 }
