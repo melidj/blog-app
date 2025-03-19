@@ -40,7 +40,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="">Edit</a>
+                                            <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2">Edit</a>
                                             <a href="">Delete</a>
                                         </td>
                                     </tr>

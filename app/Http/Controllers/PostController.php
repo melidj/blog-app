@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Intervention\Image\Facades\Image; 
 
 class PostController extends Controller
 {
@@ -43,5 +43,11 @@ class PostController extends Controller
 
 
         return redirect('posts/create')->with('status', 'Post created successfully.');
+    }
+
+    public function edit(int $id)
+    {
+        $post = Post::findOrFail($id);
+        return view('blogs.edit', compact('post'));
     }
 }
