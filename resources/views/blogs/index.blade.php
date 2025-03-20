@@ -7,6 +7,11 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
+
+                @if (session('status'))
+                    <div class="alert alert-success"> {{session('status')}} </div>
+                @endif
+
                 <div class="card">
                     <div class="card-header">
                         <h3>My Posts
@@ -31,7 +36,7 @@
                                     <tr>
                                         <td> {{$item->id}} </td>
                                         <td> {{$item->title}} </td>
-                                        <td> {{$item->content}} </td>
+                                        <td> {{ Str::limit($item->content, 50) }}</td>
                                         <td>
                                             @if ($item->image)
                                                 <img src="{{ asset('storage/' . $item->image) }}" width="150" height="150" alt="Post Image">
@@ -41,7 +46,12 @@
                                         </td>
                                         <td>
                                             <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2">Edit</a>
-                                            <a href="">Delete</a>
+                                            <a href="{{ url('posts/'.$item->id.'/delete') }}" 
+                                                class="btn btn-danger mx-2"
+                                                onclick="return confirm('Are you sure?')">
+                                                
+                                                Delete
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

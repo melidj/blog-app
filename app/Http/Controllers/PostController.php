@@ -42,12 +42,47 @@ class PostController extends Controller
         ]);
 
 
-        return redirect('posts/create')->with('status', 'Post created successfully.');
+        return redirect('posts/create')->with('status', 'Post Created Successfully.');
     }
 
     public function edit(int $id)
     {
         $post = Post::findOrFail($id);
         return view('blogs.edit', compact('post'));
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $id = (int) $id;
+        
+        $request->validate([
+            'title' => 'required|max:255|string',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            
+        ]);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
+        }
+
+        Post::findOrFail($id)->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imagePath 
+        ]);
+
+
+        return redirect()->back()->with('status', 'Post Updated Successfully!');
+    
+    }
+
+    public function destroy(int $id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return redirect()->back()->with('status', 'Post Deleted Successfully!');
+    
     }
 }

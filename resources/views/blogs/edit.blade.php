@@ -20,9 +20,10 @@
                     </div>
                     
                     <div class="card-body">
-                        <form action="{{ url('posts/create') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('posts/'.$post->id.'/edit') }}" method="POST" enctype="multipart/form-data">
                             
                             @csrf
+                            @method('PUT')
 
                             <div class="mb-3">
                                 <label for="">Title</label>
