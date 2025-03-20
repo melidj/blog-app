@@ -36,10 +36,8 @@
                                 @error('content') <span class="text-danger"> {{ $message }} </span> @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="image">Image</label>
-                                <input type="file" name="image" class="form-control">
-                                @error('image') <span class="text-danger"> {{ $message }} </span> @enderror
-                            
+                                <label for="image">Upload Image</label>
+                                <input type="file" name="image" class="form-control" />
                             </div>
 
                             <div class="mb-3">

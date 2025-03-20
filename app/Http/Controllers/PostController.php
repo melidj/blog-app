@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image; 
+use Illuminate\Support\Facades\FIle;
 
 class PostController extends Controller
 {
@@ -30,15 +29,21 @@ class PostController extends Controller
             
         ]);
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
+        if($request->has('image')){
+            $file = $request->file('image'); //got the file
+            $extension = $file->getClientOriginalExtension(); //take extension from that file
+            
+            $filename = time().'.'.$extension; //create file name to save into database
+
+            $path = 'uploads/posts/'; //store complete path of the file
+
+            $file->move($path, $filename);
         }
 
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'image' => $imagePath 
+            'image' => $path.$filename,
         ]);
 
 
@@ -53,7 +58,6 @@ class PostController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $id = (int) $id;
         
         $request->validate([
             'title' => 'required|max:255|string',
@@ -61,15 +65,28 @@ class PostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             
         ]);
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public'); // Store in storage/app/public/posts
+
+        $posts = Post::findOrFail($id);
+
+        if($request->has('image')){
+            $file = $request->file('image'); //got the file
+            $extension = $file->getClientOriginalExtension(); //take extension from that file
+            
+            $filename = time().'.'.$extension; //create file name to save into database
+
+            $path = 'uploads/posts/'; //store complete path of the file
+
+            $file->move($path, $filename);
+
+            if(File::exists($posts->image)){
+                File::delete($posts->image);
+            }
         }
 
-        Post::findOrFail($id)->update([
+        $posts->update([
             'title' => $request->title,
             'content' => $request->content,
-            'image' => $imagePath 
+            'image' => $path.$filename,
         ]);
 
 
@@ -80,6 +97,11 @@ class PostController extends Controller
     public function destroy(int $id)
     {
         $post = Post::findOrFail($id);
+
+        if(File::exists($post->image)){
+            File::delete($post->image);
+        }
+
         $post->delete();
 
         return redirect()->back()->with('status', 'Post Deleted Successfully!');

@@ -36,13 +36,9 @@
                                     <tr>
                                         <td> {{$item->id}} </td>
                                         <td> {{$item->title}} </td>
-                                        <td> {{ Str::limit($item->content, 50) }}</td>
+                                        <td> {{ Str::limit($item->content, 90) }}</td>
                                         <td>
-                                            @if ($item->image)
-                                                <img src="{{ asset('storage/' . $item->image) }}" width="150" height="150" alt="Post Image">
-                                            @else
-                                                No Image
-                                            @endif
+                                            <img src="{{ asset($item->image) }}" style="width:70px; height:70px;" alt="Post Image">
                                         </td>
                                         <td>
                                             <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2">Edit</a>
