@@ -107,4 +107,10 @@ class PostController extends Controller
         return redirect()->back()->with('status', 'Post Deleted Successfully!');
     
     }
+
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('blogs.show', compact('post'));
+    }
 }

@@ -2,6 +2,7 @@
     <x-slot name="title">
         My Posts
     </x-slot> 
+    
 </x-partials.navbar>   
 
     <div class="container mt-5">
@@ -19,6 +20,11 @@
                         </h3>
                     </div>
                     <div class="card-body">
+                        <style>
+                            .hoverable-row:hover {
+                                background-color: #f5f5f5;
+                            }
+                        </style>
 
                         <table class="table table-border table-striped">
                             
@@ -33,7 +39,7 @@
 
                             <tbody>
                                 @foreach ($posts as $item)
-                                    <tr>
+                                    <tr class="hoverable-row" onclick="window.location='{{ route('posts.show', $item->id) }}'" style="cursor: pointer; tr:hover{background-color: #f5f5f5;}">
                                         <td> {{$item->id}} </td>
                                         <td> {{$item->title}} </td>
                                         <td> {{ Str::limit($item->content, 90) }}</td>
