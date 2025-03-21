@@ -60,6 +60,10 @@
                             </tbody>
 
                         </table>
+                        <div>
+                            {{$posts->links()}}  
+                            {{-- {{$posts->links('pagination::bootstrap-5')}} -> This pagination is only for this page not globally use  --}}
+                        </div>
 
                     </div>
                 </div>
