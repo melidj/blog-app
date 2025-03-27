@@ -28,13 +28,16 @@
           <a class="nav-link {{ request()->is('/') ? 'fw-bold text-primary' : '' }}" href="/">Home</a> 
       </li>
       <li class="nav-item">
-          <a class="nav-link {{ request()->is('posts') ? 'fw-bold text-primary' : '' }}" href="/posts">Posts</a> 
+          <a class="nav-link {{ request()->is('index') ? 'fw-bold text-primary' : '' }}" href="/index">Posts</a> 
       </li>
       <li class="nav-item">
           <a class="nav-link {{ request()->is('about') ? 'fw-bold text-primary' : '' }}" href="/about">About</a> 
       </li>
     </ul>
   </div>
+  <div class="d-flex me-3">
+    <h3>{{ Auth::user()->name }}</h3>
+</div>
 </nav>
     </body>
     

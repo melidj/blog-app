@@ -13,6 +13,12 @@
                     <div class="alert alert-success"> {{session('status')}} </div>
                 @endif
 
+                <div class="container me-2">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h3>My Posts
