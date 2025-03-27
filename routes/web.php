@@ -32,5 +32,3 @@ Route::get('/about', function(){
     return view('blogs.about');
 });
 
-
-require __DIR__.'/auth.php';
