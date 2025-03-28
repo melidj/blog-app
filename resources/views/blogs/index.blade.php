@@ -50,7 +50,7 @@
                                         <td> {{$item->title}} </td>
                                         <td> {{ Str::limit($item->content, 90) }}</td>
                                         <td>
-                                            <img src="{{ asset($item->image) }}" style="width:70px; height:70px;" alt="Post Image">
+                                            <img src="{{ asset($item->image) }}" style="width:90px; height:70px;" alt="Post Image">
                                         </td>
                                         <td>
                                             <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2">Edit</a>
