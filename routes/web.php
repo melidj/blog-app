@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,20 +27,27 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::get('/index', function(){
+Route::get('/posts', function(){
     return view('authentication.index');
 })->name('index');
 
 
 Route::middleware(['auth'])->group(function(){
 
-    Route::get('/index', [PostController::class, 'index'])->name('index');
+    Route::get('/posts', [PostController::class, 'index'])->name('index');
 
     Route::get('posts/create', [PostController::class, 'create']);
     Route::post('posts/create', [PostController::class, 'store']);
     Route::get('posts/{id}/edit', [PostController::class, 'edit']);
     Route::put('posts/{id}/edit', [PostController::class, 'update']);
     Route::get('posts/{id}/delete', [PostController::class, 'destroy']);
+
+    Route::post('/logout', function(){
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('login');
+    })->name('logout');
 
 });
 

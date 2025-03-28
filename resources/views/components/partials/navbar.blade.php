@@ -34,7 +34,11 @@
   </div>
   <div class="d-flex me-3">
     <h3>{{ Auth::user()->name }}</h3>
-</div>
+  </div>
+  <form action="{{ route('logout') }}" method="post" class="d-inline me-3">
+    @csrf
+    <button type="submit" class="btn btn-danger">Logout</button>
+  </form>
 </nav>
     </body>
     

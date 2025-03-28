@@ -46,18 +46,32 @@ class AuthController extends Controller
         'password' => 'required',
     ]);
 
-    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+    $users = $request->only('email', 'password');
+
+    if (Auth::attempt($users)) {
         $request->session()->regenerate();
         return redirect()->route('index')->with('success', 'You Logged in successfully!');
     }
 
-    return back()->with('error', 'Invalid User! Please Signup');
+    return back()->with('error', 'Invalid User! Please Signup first');
 }
 
     public function index()
     {
-        return view('blogs.index');
+        //get only users posts
+        $user = Auth::user();
+        $posts = $user->posts;
+
+        return view('blogs.index', compact('posts'));
     }
 
-   
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate(); // data remove here
+        $request->session()->regenerate(); // csrf regenerate
+
+        return redirect('/login')->with('warning', 'You have been logged out.');
+    }
 }

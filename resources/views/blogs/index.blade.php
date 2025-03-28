@@ -44,7 +44,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($posts as $item)
+                                @forelse ($posts as $item)
                                     <tr class="hoverable-row" onclick="window.location='{{ route('posts.show', $item->id) }}'" style="cursor: pointer; tr:hover{background-color: #f5f5f5;}">
                                         <td> {{$item->id}} </td>
                                         <td> {{$item->title}} </td>
@@ -52,17 +52,22 @@
                                         <td>
                                             <img src="{{ asset($item->image) }}" style="width:90px; height:70px;" alt="Post Image">
                                         </td>
-                                        <td>
-                                            <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2">Edit</a>
+                                        <td style="display: block;">
+                                            <a href="{{ url('posts/'.$item->id.'/edit')}}" class="btn btn-success mx-2 ">Edit</a>
                                             <a href="{{ url('posts/'.$item->id.'/delete') }}" 
-                                                class="btn btn-danger mx-2"
+                                                class="btn btn-danger mx-2 mt-3"
                                                 onclick="return confirm('Are you sure?')">
                                                 
                                                 Delete
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                    
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No posts found. Start creating your first post!</td>
+                                </tr>
+                                @endforelse
                             </tbody>
 
                         </table>

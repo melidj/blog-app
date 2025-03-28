@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\FIle;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(4);
+        $posts = Post::where('user_id', auth()->id())->paginate(4);
         return view('blogs.index', compact('posts'));
     }
 
@@ -40,11 +41,14 @@ class PostController extends Controller
             $file->move($path, $filename);
         }
 
-        Post::create([
+        $post = Post::create([
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
             'image' => $path.$filename,
         ]);
+
+        $post->save();
 
 
         return redirect('posts/create')->with('status', 'Post Created Successfully.');
@@ -53,6 +57,11 @@ class PostController extends Controller
     public function edit(int $id)
     {
         $post = Post::findOrFail($id);
+
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('blogs.edit', compact('post'));
     }
 
@@ -67,6 +76,10 @@ class PostController extends Controller
         ]);
 
         $posts = Post::findOrFail($id);
+
+        if ($posts->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
         if($request->has('image')){
             $file = $request->file('image'); //got the file
@@ -97,6 +110,10 @@ class PostController extends Controller
     public function destroy(int $id)
     {
         $post = Post::findOrFail($id);
+
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
         if(File::exists($post->image)){
             File::delete($post->image);
