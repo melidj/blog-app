@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/posts', function(){
     return view('authentication.index');
-})->name('index');
+})->name('posts');
 
 
 Route::middleware(['auth'])->group(function(){

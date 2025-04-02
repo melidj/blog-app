@@ -79,15 +79,7 @@ label[for="content"] {
                                     placeholder="Write your amazing content here..."
                                 >{{ old('content', $post->content ?? '') }}</textarea>
 
-                                <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js"></script>
-                                <script>
-                                    tinymce.init({
-                                        selector: '#content',
-                                        plugins: 'link image code',
-                                        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | link image | code',
-                                        content_style: 'body { font-family: sans-serif; font-size: 14px; }'
-                                    });
-                                </script>
+                                
 
                                 @error('content') <span class="text-danger"> {{ $message }} </span> @enderror
                             </div>

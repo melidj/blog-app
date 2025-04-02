@@ -5,6 +5,8 @@
 
 </x-partials.navbar>
 
+<script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 <style>
     .post-content {
     font-size: 1.1rem;
@@ -48,6 +50,7 @@
 
 </style>
 
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-11">
@@ -67,7 +70,7 @@
                     </figure>
 
                     <section class="mb-5 post-content">
-                        {!! nl2br(e($post->content)) !!}
+                        {!! $post->content !!}  {{-- No 'e()' or 'nl2br()' --}}
                     </section>
 
                     <div class="text-center">
